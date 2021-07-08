@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <script src="page_logic.js"></script>
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="formatting.css">
+    <link rel="stylesheet" href="color.css">
+</head>
+
+<body onload="check_server_status()">
+    <div id="panels">
+        <div id="status_panel" class="panel warn_border">
+            <h2 id="status_header"> Status </h2>
+            <hr>
+            <span>
+                Rocket Web Server: <span id="rocket_status" class="warn"> checking... </span>
+            </span>
+            <span>
+                LED TCP Server: <span id="tcp_status" class="warn"> checking... </span>
+            </span>
+            <hr>
+
+            <p id="status_recommendation" class="warn"> waiting for contact from the web server... </p>
+            <button hidden id="status_refresh"> Refresh </button>
+            <br>
+        </div>
+
+        <div id="effects_panel" class="panel plain_border">
+            <h2 id="effects_header">Effects</h2>
+            <hr>
+            <div id="fx_top_split">
+                <select id="fx_list" disabled="true" onchange="on_fx_change(this.value)">
+                    <option value="none"> NONE </option>
+                    <option value="rainbow"> RAINBOW </option>
+                    <option value="sweep"> SWEEP </option>
+                </select>
+                <button disabled id="room_toggle" class="disabled disabled_border" onclick="toggle_room()"> ...
+                </button>
+
+            </div>
+            <br>
+
+        </div>
+
+        <div id="credits_panel" class="panel okay_border">
+            <h2 id="effects_header">About</h2>
+        </div>
+
+        <div id="display_panel" class="panel plain_border">
+            <canvas id="display_canvas"></canvas>
+        </div>
+
+    </div>
+</body>
+
+</html>

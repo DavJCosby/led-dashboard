@@ -1,0 +1,99 @@
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #32302f;
+        --fg1: #282828;
+        --disabled: #928374;
+        --text: #ebdbb2;
+        --green: #98971a;
+        --orange: #d79921;
+        --red: #cc241d;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: #f2e5bc;
+        --fg1: #fbf1c7;
+        --disabled: #7c6f64;
+        --text: #7c6f64;
+        --green: #98971a;
+        --orange: #d79921;
+        --red: #cc241d;
+    }
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+button {
+    background-color: var(--fg1);
+    border-color: var(--text);
+    color: var(--text);
+}
+
+button:active {
+    background-color: var(--bg);
+    border-radius: 0.4em;
+}
+
+.panel {
+    background-color: var(--fg1);
+}
+
+.okay {
+    color: var(--green);
+}
+
+.warn {
+    color: var(--orange);
+}
+
+.error {
+    color: var(--red);
+}
+
+.disabled {
+    color: var(--disabled);
+}
+
+.panel {
+    border-style: solid;
+    border-width: 0.1em;
+    border-radius: 1em;
+}
+
+.okay_border {
+    border-color: var(--green);
+}
+
+.warn_border {
+    border-color: var(--orange);
+}
+
+.error_border {
+    border-color: var(--red);
+}
+
+.disabled_border {
+    border-color: var(--disabled);
+}
+
+.plain_border {
+    border-style: solid;
+    border-width: 0.1em;
+    border-radius: 1em;
+    border-color: var(--text);
+}
+
+#fx_list, #fx_list:enabled {
+    background-color: var(--fg1);
+    border-color: var(--text);
+    color: var(--text);
+}
+
+#fx_list:disabled {
+    border-color: var(--disabled);
+    color: var(--disabled);
+}

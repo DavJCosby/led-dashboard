@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    margin-top: 2.5vw;
+}
+
+hr {
+    width: calc(100% - 2em);
+    border-width: 0;
+    border-top: 1px solid var(--text);
+}
+
+button {
+    text-decoration: none;
+    border: none;
+    border-style: solid;
+    border-width: 0.1em;
+    border-radius: 0.25em;
+    padding: 0.5em;
+}
+
+#panels {
+    width: calc(90%);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+}
+
+.panel {
+    margin: 0.5em
+}
+
+#status_panel {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 10;
+    align-content: stretch;
+    flex-direction: column;
+    text-align: center;
+    word-wrap: normal;
+    flex-basis: 45%;
+}
+
+#status_panel.span {
+    flex-grow: 1;
+}
+
+#status_header, #effects_header, #credits_header {
+    margin: 8px;
+}
+
+#status_recommendation {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#status_refresh {
+    width: 8em;
+    margin: 0 auto;
+}
+
+#display_panel {
+    flex: 8 0 20em;
+    aspect-ratio: 1.0;
+}
+
+#effects_panel {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-content: stretch;
+    flex-direction: column;
+    text-align: center;
+    word-wrap: normal;
+    flex-basis: 51%;
+}
+
+#room_toggle {
+    width: 8em;
+}
+
+#fx_top_split {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#fx_list {
+    width: 12em;
+    text-decoration: none;
+    border-radius: 0.25em;
+    padding: 0.5em;
+    font-family: MplusCode;
+}
+
+#credits_panel {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-content: stretch;
+    flex-direction: column;
+    text-align: center;
+    word-wrap: normal;
+    flex-basis: 36%;
+    order: 99;
+}
