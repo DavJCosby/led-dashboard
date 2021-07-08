@@ -1,4 +1,4 @@
-const server_loc = "http://localhost:8000";
+const server_loc = "192.168.1.169:8000";
 var room_running = false;
 var first_time_load = true;
 
