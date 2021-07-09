@@ -26,6 +26,7 @@ function check_server_status() {
                     rec.textContent = "You're all set!";
                     rec.className = "okay";
                     status_box.className = "panel okay_border";
+                    refresh_button.hidden = true;
                 }
                 else if (tcp_state == "offline") {
                     tcp_status.className = "error";
@@ -142,7 +143,7 @@ function on_start() {
     check_server_status();
 
     var xhr = new XMLHttpRequest();
-    xhr.open('post', server_loc + "/room/start", true);
+    xhr.open('post', server_loc + "/room/refresh", true);
     xhr.send();
 }
 
