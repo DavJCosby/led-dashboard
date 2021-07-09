@@ -19,10 +19,7 @@ function check_server_status() {
 
                 let tcp_state = xhr.responseText;
                 tcp_status.textContent = tcp_state;
-                if (first_time_load) {
-                    set_fx_button_stop();
-                    first_time_load = false;
-                }
+                update_fx_from_sever();
 
                 if (tcp_state == "online") {
                     tcp_status.className = "okay";
@@ -76,6 +73,37 @@ function refresh_page() {
     location.reload();
 }
 
+function update_fx_from_sever() {
+    var xhr1 = new XMLHttpRequest();
+    xhr1.onreadystatechange = function () {
+        if (xhr1.readyState === 4) {
+            if (xhr1.status == 200) {
+                var fx = xhr1.responseText;
+                var fx_list = document.getElementById("fx_list");
+                fx_list.value = fx;
+            }
+        }
+    }
+    xhr1.open('get', server_loc + "/fx/current", true);
+    xhr1.send();
+
+    var xhr2 = new XMLHttpRequest();
+    xhr2.onreadystatechange = function () {
+        if (xhr2.readyState === 4) {
+            if (xhr2.status == 200) {
+                var is_on = xhr2.responseText;
+                if (is_on == "true") {
+                    set_fx_button_stop();
+                } else {
+                    set_fx_button_start();
+                }
+            }
+        }
+    }
+    xhr2.open('get', server_loc + "/fx/on", true);
+    xhr2.send();
+}
+
 function set_fx_disabled() {
     var button = document.getElementById("room_toggle");
     var fx_list = document.getElementById("fx_list");
@@ -86,6 +114,8 @@ function set_fx_disabled() {
 }
 
 function set_fx_button_stop() {
+    var fx_list = document.getElementById("fx_list");
+    fx_list.disabled = true;
     var button = document.getElementById("room_toggle");
     button.disabled = false;
     button.textContent = "STOP";
@@ -94,6 +124,8 @@ function set_fx_button_stop() {
 }
 
 function set_fx_button_start() {
+    var fx_list = document.getElementById("fx_list");
+    fx_list.disabled = false;
     var button = document.getElementById("room_toggle");
     button.disabled = false;
     button.textContent = "START";
