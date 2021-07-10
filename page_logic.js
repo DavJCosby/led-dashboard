@@ -176,3 +176,11 @@ function submit() {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     xhr.send();
 }
+
+function update_slider() {
+    let value = document.getElementById("placeholder").value;
+    console.log(value);
+    var xhr = new XMLHttpRequest();
+    xhr.open("post", server_loc + "/fx/solid_color/color");
+    xhr.send(value);
+}
