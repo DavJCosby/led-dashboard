@@ -97,6 +97,7 @@ button {
     padding: 0.5em;
     font-family: MplusCode;
     appearance: none;
+    outline: none;
 }
 
 #sliders {
