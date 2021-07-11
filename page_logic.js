@@ -17,7 +17,7 @@ function check_server_status() {
                 rocket_status.textContent = "online";
                 rocket_status.className = "okay";
 
-                let tcp_state = xhr.responseText;
+                var tcp_state = xhr.responseText;
                 tcp_status.textContent = tcp_state;
                 update_fx_from_sever();
 
@@ -160,8 +160,77 @@ function on_stop() {
 }
 
 function on_fx_change(new_fx) {
+    load_sliders(new_fx);
     var xhr = new XMLHttpRequest();
     xhr.open('post', server_loc + "/fx/" + new_fx, true);
+    xhr.send();
+}
+
+function componentToHex(c) {
+    let hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return parseInt(result[1], 16) + " " + parseInt(result[2], 16) + " " + parseInt(result[3], 16);
+}
+
+function load_sliders(fx_name) {
+    var slider_container = document.getElementById("sliders");
+    slider_container.innerHTML = "";
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', server_loc + "/fx/" + fx_name + "/sliders", true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            var sliders = JSON.parse(xhr.responseText);
+            for (var slider_name in sliders) {
+                if (sliders.hasOwnProperty(slider_name)) {
+                    var slider_element = document.createElement("div");
+                    slider_element.className = "slider";
+                    slider_container.appendChild(slider_element);
+
+                    var slider_label = document.createElement("span");
+                    slider_label.textContent = slider_name;
+                    slider_element.appendChild(slider_label);
+
+                    let input = document.createElement("input");
+
+                    var slider = sliders[slider_name];
+                    switch (slider["type"]) {
+                        case "color":
+                            input.type = "color";
+                            let hex = rgbToHex(slider["value"][0], slider["value"][1], slider["value"][2]);
+                            input.value = hex;
+                            input.addEventListener("input", function () {
+                                let new_color = hexToRgb(input.value);
+                                update_slider(fx_name, slider_name, new_color);
+                            });
+                            break;
+                        case "f32_clamped":
+                            input.type = "number";
+                            input.value = slider["value"][0];
+                            input.min = slider["value"][1];
+                            input.max = slider["value"][2];
+                            break;
+                        case "f32":
+                            input.type = "number";
+                            input.value = slider["value"];
+                            input.oninput = function () {
+                                console.log("chage");
+                            }
+                            break;
+                    }
+
+                    slider_element.appendChild(input);
+                }
+            }
+        }
+    }
     xhr.send();
 }
 
@@ -177,10 +246,8 @@ function submit() {
     xhr.send();
 }
 
-function update_slider() {
-    let value = document.getElementById("placeholder").value;
-    console.log(value);
+function update_slider(fx_name, slider_name, value) {
     var xhr = new XMLHttpRequest();
-    xhr.open("post", server_loc + "/fx/solid_color/color");
+    xhr.open("post", server_loc + "/fx/" + fx_name + "/" + slider_name);
     xhr.send(value);
 }

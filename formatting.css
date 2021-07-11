@@ -46,7 +46,7 @@ button {
 }
 
 #status_header, #effects_header, #credits_header {
-    margin: 8px;
+    margin: 0.33em;
 }
 
 #status_recommendation {
@@ -96,6 +96,7 @@ button {
     border-radius: 0.25em;
     padding: 0.5em;
     font-family: MplusCode;
+    appearance: none;
 }
 
 #sliders {
@@ -113,24 +114,42 @@ button {
 }
 
 input[type="color"] {
-    -webkit-appearance: none;
-    border-color: var(--text);
-    border-width: 1px;
-    border-radius: 0.25em;
-    padding: 0;
+    background-color: transparent;
+    padding: 0.1em;
     width: 5em;
-}
-
-input[type="color"]:hover {
-    border-width: 2px;
+    height: 2em;
+    border: none;
 }
 
 input[type="color"]::-webkit-color-swatch-wrapper {
     padding: 0;
+    border: none;
 }
 
 input[type="color"]::-webkit-color-swatch {
     border: none;
+    border-radius: 2em;
+}
+
+input[type="number"] {
+    height: 2em;
+    width: 5em;
+    text-decoration: none;
+    border-color: var(--text);
+    background-color: var(--fg1);
+    border: none;
+    border-bottom: solid;
+    border-width: 0.1em;
+    margin: 0;
+    color: var(--text);
+    font-family: MPlusCode;
+    text-align: center;
+    outline: none;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 #credits_panel {

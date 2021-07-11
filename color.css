@@ -30,11 +30,9 @@ div::-webkit-scrollbar {
     width: 0.6em;
 }
 
-
 ::-webkit-scrollbar-thumb {
     background: var(--text);
 }
-
 
 body {
     background-color: var(--bg);
@@ -92,6 +90,7 @@ button:active {
 
 .disabled_border {
     border-color: var(--disabled);
+    border-width: 0.025em;
 }
 
 .plain_border {
