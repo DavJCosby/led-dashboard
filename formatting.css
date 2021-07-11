@@ -19,7 +19,7 @@ button {
 }
 
 #panels {
-    width: calc(90%);
+    width: 90%;
     margin: 0 auto;
     display: flex;
     flex-direction: row-reverse;
@@ -96,6 +96,41 @@ button {
     border-radius: 0.25em;
     padding: 0.5em;
     font-family: MplusCode;
+}
+
+#sliders {
+    max-block-size: 12em;
+    overflow-y: scroll;
+    margin: 1em;
+}
+
+.slider {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 2em;
+    padding-right: 2em;
+    margin-top: 0.5em;
+}
+
+input[type="color"] {
+    -webkit-appearance: none;
+    border-color: var(--text);
+    border-width: 1px;
+    border-radius: 0.25em;
+    padding: 0;
+    width: 5em;
+}
+
+input[type="color"]:hover {
+    border-width: 2px;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
 }
 
 #credits_panel {

@@ -22,6 +22,20 @@
     }
 }
 
+::-webkit-scrollbar {
+    width: 0.9em;
+}
+
+div::-webkit-scrollbar {
+    width: 0.6em;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: var(--text);
+}
+
+
 body {
     background-color: var(--bg);
     color: var(--text);

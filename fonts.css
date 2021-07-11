@@ -129,4 +129,9 @@ button:disabled:hover {
     #fx_list {
         font-size: xx-large;
     }
+
+    #sliders {
+        overflow-y:initial;
+        max-block-size: 30em;
+    }
 }

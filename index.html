@@ -3,9 +3,10 @@
 <head>
     <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
     <script src="page_logic.js"></script>
-    <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="formatting.css">
     <link rel="stylesheet" href="color.css">
+    <link rel="stylesheet" href="fonts.css">
+
 </head>
 
 <body onload="check_server_status()">
@@ -39,8 +40,14 @@
                 <button disabled id="room_toggle" class="disabled disabled_border" onclick="toggle_room()"> ...
                 </button>
             </div>
-            <input type="text" id="placeholder" name ="placeholder">
-            <button id="sub" class="okay_border" onclick="update_slider()">UPDATE</button>
+            <div id="sliders">
+                <div class = "slider">
+                    <span> COLOR </span> <input type="color">
+                </div>
+                <div class = "slider">
+                   <span> COLOR2 </span> <input type="color">
+                </div>
+            </div>
             <br>
 
         </div>
