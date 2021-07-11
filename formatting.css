@@ -164,3 +164,37 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     flex-basis: 36%;
     order: 99;
 }
+
+.range_container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+input[type="range"] {
+    margin-top: 1em;
+    margin-bottom: 2em;
+    width: 100%;
+    height: 0.1em;
+    -webkit-appearance: none;
+    outline: none;
+    background-color: var(--disabled);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 1em;
+    background: var(--blue);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: var(--blue);
+    cursor: pointer;
+}

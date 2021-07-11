@@ -141,7 +141,6 @@ function on_start() {
     set_fx_button_stop();
     var fx_list = document.getElementById("fx_list");
     fx_list.disabled = true;
-    check_server_status();
 
     var xhr = new XMLHttpRequest();
     xhr.open('post', server_loc + "/room/refresh", true);
@@ -195,39 +194,68 @@ function load_sliders(fx_name) {
                     slider_element.className = "slider";
                     slider_container.appendChild(slider_element);
 
-                    var slider_label = document.createElement("span");
-                    slider_label.textContent = slider_name.toUpperCase();
-                    slider_element.appendChild(slider_label);
-
                     let input = document.createElement("input");
 
                     var slider = sliders[slider_name];
                     switch (slider["type"]) {
                         case "color":
+                            var slider_label = document.createElement("span");
+                            slider_label.textContent = slider_name.toUpperCase();
+                            slider_element.appendChild(slider_label);
+
                             input.type = "color";
                             let hex = rgbToHex(slider["value"][0], slider["value"][1], slider["value"][2]);
                             input.value = hex;
+
                             input.addEventListener("input", function () {
                                 let new_color = hexToRgb(input.value);
                                 update_slider(fx_name, slider_name, new_color);
                             });
+
+                            slider_element.appendChild(input);
                             break;
                         case "f32_clamped":
-                            input.type = "number";
+                            let range_container = document.createElement("div");
+                            range_container.className = "range_container";
+
+                            var slider_label = document.createElement("span");
+                            slider_label.textContent = slider_name.toUpperCase() + ":\u00A0";
+                            range_container.appendChild(slider_label);
+
+                            var value_label = document.createElement("span");
+                            value_label.textContent = slider["value"][0];
+                            range_container.appendChild(value_label);
+
+                            input.type = "range";
                             input.value = slider["value"][0];
                             input.min = slider["value"][1];
                             input.max = slider["value"][2];
+                            input.step = slider["value"][3];
+
+                            input.addEventListener("input", function () {
+                                value_label.textContent = input.value;
+                                update_slider(fx_name, slider_name, input.value + "");
+                            });
+
+                            range_container.appendChild(input);
+                            slider_element.appendChild(range_container);
                             break;
                         case "f32":
+                            var slider_label = document.createElement("span");
+                            slider_label.textContent = slider_name.toUpperCase();
+                            slider_element.appendChild(slider_label);
+
                             input.type = "number";
                             input.value = slider["value"];
+
                             input.oninput = function () {
                                 console.log("chage");
                             }
+
+                            slider_element.appendChild(input);
                             break;
                     }
 
-                    slider_element.appendChild(input);
                 }
             }
         }
