@@ -1,4 +1,4 @@
-const server_loc = "http://192.168.1.169";
+const server_loc = "http://70.34.15.240:88";
 var room_running = false;
 var first_time_load = true;
 
@@ -188,7 +188,7 @@ function load_sliders(fx_name) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             var sliders = JSON.parse(xhr.responseText);
-            for (var slider_name in sliders) {
+            for (let slider_name in sliders) {
                 if (sliders.hasOwnProperty(slider_name)) {
                     var slider_element = document.createElement("div");
                     slider_element.className = "slider";
@@ -248,9 +248,9 @@ function load_sliders(fx_name) {
                             input.type = "number";
                             input.value = slider["value"];
 
-                            input.oninput = function () {
-                                console.log("chage");
-                            }
+                            input.addEventListener("input", function () {
+                                update_slider(fx_name, slider_name, input.value + "");
+                            });
 
                             slider_element.appendChild(input);
                             break;
