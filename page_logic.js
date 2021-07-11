@@ -82,6 +82,7 @@ function update_fx_from_sever() {
                 var fx = xhr1.responseText;
                 var fx_list = document.getElementById("fx_list");
                 fx_list.value = fx;
+                load_sliders(fx);
             }
         }
     }
@@ -195,7 +196,7 @@ function load_sliders(fx_name) {
                     slider_container.appendChild(slider_element);
 
                     var slider_label = document.createElement("span");
-                    slider_label.textContent = slider_name;
+                    slider_label.textContent = slider_name.toUpperCase();
                     slider_element.appendChild(slider_label);
 
                     let input = document.createElement("input");
