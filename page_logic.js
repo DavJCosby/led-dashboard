@@ -227,10 +227,10 @@ function load_sliders(fx_name) {
                             range_container.appendChild(value_label);
 
                             input.type = "range";
-                            input.value = slider["value"][0];
                             input.min = slider["value"][1];
                             input.max = slider["value"][2];
                             input.step = slider["value"][3];
+                            input.value = slider["value"][0];
 
                             input.addEventListener("input", function () {
                                 value_label.textContent = input.value;
