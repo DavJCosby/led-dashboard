@@ -222,7 +222,7 @@ function load_sliders(fx_name) {
                             slider_label.textContent = slider_name.toUpperCase() + ":\u00A0";
                             range_container.appendChild(slider_label);
 
-                            var value_label = document.createElement("span");
+                            let value_label = document.createElement("span");
                             value_label.textContent = slider["value"][0];
                             range_container.appendChild(value_label);
 

@@ -101,7 +101,7 @@ button {
 }
 
 #sliders {
-    max-block-size: 12em;
+    max-block-size: 18em;
     overflow-y: scroll;
     margin: 1em;
 }
@@ -174,7 +174,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 input[type="range"] {
     margin-top: 1em;
-    margin-bottom: 2em;
     width: 100%;
     height: 0.1em;
     -webkit-appearance: none;
