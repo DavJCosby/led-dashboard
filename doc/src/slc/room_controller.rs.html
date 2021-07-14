@@ -229,15 +229,42 @@
 <span id="229">229</span>
 <span id="230">230</span>
 <span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="ident">std::f32::consts::TAU</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::prelude</span>::<span class="kw-2">*</span>;
 
-
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RoomController</span> {
     <span class="kw">pub</span> <span class="ident">room_data</span>: <span class="ident">RoomData</span>,
-    <span class="ident">angle_dir_led_index_triplets</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">f32</span>, <span class="ident">Vector2D</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>,
+    <span class="ident">angle_dir_displ_index_quads</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">f32</span>, <span class="ident">Vector2D</span>, <span class="ident">Vector2D</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">RoomController</span> {
@@ -246,7 +273,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">filepath</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RoomController</span> {
         <span class="kw">let</span> <span class="ident">room_data</span> <span class="op">=</span> <span class="ident">RoomData::new_from_file</span>(<span class="ident">filepath</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">angle_dir_led_index_triplets</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">f32</span>, <span class="ident">Vector2D</span>, <span class="ident">usize</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec!</span>[];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">angle_dir_displ_index_quads</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">f32</span>, <span class="ident">Vector2D</span>, <span class="ident">Vector2D</span>, <span class="ident">usize</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec!</span>[];
 
         <span class="kw">let</span> <span class="ident">led_count</span> <span class="op">=</span> <span class="ident">room_data</span>.<span class="ident">leds</span>().<span class="ident">len</span>();
         <span class="kw">let</span> <span class="ident">view</span> <span class="op">=</span> <span class="ident">room_data</span>.<span class="ident">view_pos</span>();
@@ -256,22 +283,40 @@
             <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="ident">room_data</span>.<span class="ident">get_pos_at_t</span>(<span class="ident">t</span>);
             <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> (<span class="ident">p</span>.<span class="number">0</span> <span class="op">-</span> <span class="ident">view</span>.<span class="number">0</span>, <span class="ident">p</span>.<span class="number">1</span> <span class="op">-</span> <span class="ident">view</span>.<span class="number">1</span>);
             <span class="kw">let</span> <span class="ident">angle</span> <span class="op">=</span> <span class="ident">d</span>.<span class="number">1</span>.<span class="ident">atan2</span>(<span class="ident">d</span>.<span class="number">0</span>);
-            <span class="ident">angle_dir_led_index_triplets</span>.<span class="ident">push</span>((
+            <span class="ident">angle_dir_displ_index_quads</span>.<span class="ident">push</span>((
                 (<span class="ident">angle</span> <span class="op">+</span> <span class="ident">TAU</span>) <span class="op">%</span> <span class="ident">TAU</span>,
                 (<span class="ident">angle</span>.<span class="ident">cos</span>(), <span class="ident">angle</span>.<span class="ident">sin</span>()),
+                <span class="ident">d</span>,
                 <span class="ident">index</span>,
             ));
         }
 
         <span class="ident">RoomController</span> {
             <span class="ident">room_data</span>,
-            <span class="ident">angle_dir_led_index_triplets</span>,
+            <span class="ident">angle_dir_displ_index_quads</span>,
         }
     }
 
     <span class="doccomment">/// Sets the color of a given led</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>, <span class="ident">color</span>: <span class="ident">Color</span>) {
         <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">set_led</span>(<span class="ident">index</span>, <span class="ident">color</span>);
+    }
+
+    <span class="doccomment">/// Sets all LEDs belonging the a given strip the same color. Will panic if strip_index is larger than `room_data.strip().len()`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_strip</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">strip_index</span>: <span class="ident">usize</span>, <span class="ident">color</span>: <span class="ident">Color</span>) {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor_index</span> <span class="op">=</span> <span class="number">0.0</span>;
+        <span class="kw">let</span> <span class="ident">density</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">density</span>();
+        <span class="kw">let</span> <span class="ident">strips</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">strips</span>();
+
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">strip_index</span> {
+            <span class="ident">floor_index</span> <span class="op">+</span><span class="op">=</span> <span class="ident">strips</span>[<span class="ident">i</span>].<span class="ident">len</span>() <span class="op">*</span> <span class="ident">density</span>;
+        }
+
+        <span class="kw">let</span> <span class="ident">ceil_index</span> <span class="op">=</span> <span class="ident">floor_index</span> <span class="op">+</span> <span class="ident">strips</span>[<span class="ident">strip_index</span>].<span class="ident">len</span>() <span class="op">*</span> <span class="ident">density</span>;
+
+        <span class="kw">for</span> <span class="ident">index</span> <span class="kw">in</span> (<span class="ident">floor_index</span> <span class="kw">as</span> <span class="ident">usize</span>)..(<span class="ident">ceil_index</span> <span class="kw">as</span> <span class="ident">usize</span>) {
+            <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">set_led</span>(<span class="ident">index</span>, <span class="ident">color</span>);
+        }
     }
 
     <span class="doccomment">/// Sets the color of all leds in the room</span>
@@ -282,6 +327,7 @@
     }
 
     <span class="doccomment">/// Sets the color of the pixel in a given direction, relative to the view.</span>
+    <span class="doccomment">/// If enable_smoothing is true, anti-aliasing will occur between the two LEDs closest to that direction.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_at_view_dir</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dir</span>: <span class="ident">Vector2D</span>, <span class="ident">color</span>: <span class="ident">Color</span>, <span class="ident">enable_smoothing</span>: <span class="ident">bool</span>) {
         <span class="self">self</span>.<span class="ident">set_at_room_dir</span>(
             <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">view_dir_to_room_dir</span>(<span class="ident">dir</span>),
@@ -291,6 +337,7 @@
     }
 
     <span class="doccomment">/// Sets the color of the pixel at a given angle, relative to the view.</span>
+    <span class="doccomment">/// If enable_smoothing is true, anti-aliasing will occur between the two LEDs closest to that direction.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_at_view_angle</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">angle</span>: <span class="ident">f32</span>, <span class="ident">color</span>: <span class="ident">Color</span>, <span class="ident">enable_smoothing</span>: <span class="ident">bool</span>) {
         <span class="self">self</span>.<span class="ident">set_at_room_angle</span>(
             <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">view_angle_to_room_angle</span>(<span class="ident">angle</span>),
@@ -300,6 +347,7 @@
     }
 
     <span class="doccomment">/// Sets the color of the pixel at a given angle, relative to the room.</span>
+    <span class="doccomment">/// If enable_smoothing is true, anti-aliasing will occur between the two LEDs closest to that direction.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_at_room_angle</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">angle</span>: <span class="ident">f32</span>, <span class="ident">color</span>: <span class="ident">Color</span>, <span class="ident">enable_smoothing</span>: <span class="ident">bool</span>) {
         <span class="kw">let</span> <span class="ident">room_dir</span> <span class="op">=</span> (<span class="ident">angle</span>.<span class="ident">cos</span>(), <span class="ident">angle</span>.<span class="ident">sin</span>());
         <span class="self">self</span>.<span class="ident">set_at_room_dir</span>(<span class="ident">room_dir</span>, <span class="ident">color</span>, <span class="ident">enable_smoothing</span>);
@@ -382,7 +430,7 @@
 
     <span class="doccomment">/// Allows the user to pass in a Color-returning function to calculate the color of each led, given its angle.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_angle_to_color</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">map</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Color</span>) {
-        <span class="kw">for</span> (<span class="ident">angle</span>, <span class="ident">_dir</span>, <span class="ident">led_index</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">angle_dir_led_index_triplets</span> {
+        <span class="kw">for</span> (<span class="ident">angle</span>, <span class="ident">_dir</span>, <span class="kw">_</span>, <span class="ident">led_index</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">angle_dir_displ_index_quads</span> {
             <span class="kw">let</span> <span class="ident">color</span> <span class="op">=</span> <span class="ident">map</span>(<span class="kw-2">*</span><span class="ident">angle</span>);
             <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">set_led</span>(<span class="kw-2">*</span><span class="ident">led_index</span>, <span class="ident">color</span>);
         }
@@ -399,7 +447,7 @@
         <span class="kw">let</span> <span class="ident">adjusted_max</span> <span class="op">=</span> (<span class="ident">max_angle</span> <span class="op">+</span> <span class="ident">TAU</span>) <span class="op">%</span> <span class="ident">TAU</span>;
         <span class="kw">let</span> <span class="ident">crosses_wraparound</span> <span class="op">=</span> <span class="ident">min_angle</span> <span class="op">&lt;</span> <span class="number">0.0</span> <span class="op">&amp;&amp;</span> <span class="ident">max_angle</span> <span class="op">&gt;</span> <span class="number">0.0</span>;
 
-        <span class="kw">for</span> (<span class="ident">angle</span>, <span class="ident">_dir</span>, <span class="ident">led_index</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">angle_dir_led_index_triplets</span> {
+        <span class="kw">for</span> (<span class="ident">angle</span>, <span class="ident">_dir</span>, <span class="kw">_</span>, <span class="ident">led_index</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">angle_dir_displ_index_quads</span> {
             <span class="kw">let</span> <span class="ident">deref_angle</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">angle</span>;
             <span class="comment">// if this angle doesn&#39;t fit in the arc, skip it</span>
             <span class="kw">if</span> <span class="ident">crosses_wraparound</span> {
@@ -418,7 +466,7 @@
 
     <span class="doccomment">/// Allows the user to pass in a Color-returning function to calculate the color of each led, given its direction.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_dir_to_color</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">map</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="ident">Vector2D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Color</span>) {
-        <span class="kw">for</span> (<span class="ident">_angle</span>, <span class="ident">dir</span>, <span class="ident">led_index</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">angle_dir_led_index_triplets</span> {
+        <span class="kw">for</span> (<span class="ident">_angle</span>, <span class="ident">dir</span>, <span class="kw">_</span>, <span class="ident">led_index</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">angle_dir_displ_index_quads</span> {
             <span class="kw">let</span> <span class="ident">color</span> <span class="op">=</span> <span class="ident">map</span>(<span class="kw-2">*</span><span class="ident">dir</span>);
             <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">set_led</span>(<span class="kw-2">*</span><span class="ident">led_index</span>, <span class="ident">color</span>);
         }
@@ -435,7 +483,7 @@
         <span class="kw">let</span> <span class="ident">adjusted_max</span> <span class="op">=</span> (<span class="ident">max_angle</span> <span class="op">+</span> <span class="ident">TAU</span>) <span class="op">%</span> <span class="ident">TAU</span>;
         <span class="kw">let</span> <span class="ident">crosses_wraparound</span> <span class="op">=</span> <span class="ident">min_angle</span> <span class="op">&lt;</span> <span class="number">0.0</span> <span class="op">&amp;&amp;</span> <span class="ident">max_angle</span> <span class="op">&gt;</span> <span class="number">0.0</span>;
 
-        <span class="kw">for</span> (<span class="ident">angle</span>, <span class="ident">dir</span>, <span class="ident">led_index</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">angle_dir_led_index_triplets</span> {
+        <span class="kw">for</span> (<span class="ident">angle</span>, <span class="ident">dir</span>, <span class="kw">_</span>, <span class="ident">led_index</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">angle_dir_displ_index_quads</span> {
             <span class="kw">let</span> <span class="ident">deref_angle</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">angle</span>;
             <span class="comment">// if this angle doesn&#39;t fit in the arc, skip it</span>
             <span class="kw">if</span> <span class="ident">crosses_wraparound</span> {
@@ -449,6 +497,14 @@
             }
 
             <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">set_led</span>(<span class="kw-2">*</span><span class="ident">led_index</span>, <span class="ident">map</span>(<span class="kw-2">*</span><span class="ident">dir</span>));
+        }
+    }
+
+    <span class="doccomment">/// Allows the user to pass in a Color-returning function to calculate the color of each led within, given its displacement from the view position.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_displacement_to_color</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">map</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="ident">Vector2D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Color</span>) {
+        <span class="kw">for</span> (<span class="kw">_</span>, <span class="kw">_</span>, <span class="ident">displ</span>, <span class="ident">led_index</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">angle_dir_displ_index_quads</span> {
+            <span class="kw">let</span> <span class="ident">color</span> <span class="op">=</span> <span class="ident">map</span>(<span class="kw-2">*</span><span class="ident">displ</span>);
+            <span class="self">self</span>.<span class="ident">room_data</span>.<span class="ident">set_led</span>(<span class="kw-2">*</span><span class="ident">led_index</span>, <span class="ident">color</span>);
         }
     }
 }

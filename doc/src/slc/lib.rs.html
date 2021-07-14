@@ -133,6 +133,19 @@
 <span id="133">133</span>
 <span id="134">134</span>
 <span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
 </pre><pre class="rust">
 <span class="doccomment">//! # SLC - Spatial Lighting Controller</span>
 <span class="doccomment">//! ```toml</span>
@@ -158,13 +171,13 @@
 <span class="doccomment">//!     fn start(&amp;self, input_handle: RoomControllerInputHandle) {</span>
 <span class="doccomment">//!         let mut room_controller = input_handle.write().unwrap();</span>
 <span class="doccomment">//!         // set all pixels white</span>
-<span class="doccomment">//!         room_controller.set_all((255, 255, 255));</span>
+<span class="doccomment">//!         room_controller.set_all((255, 255, 255), false);</span>
 <span class="doccomment">//!         // set the LED leftmost to the camera red</span>
-<span class="doccomment">//!         controller_write.set_at_view_angle(PI, (255, 0, 0));</span>
+<span class="doccomment">//!         controller_write.set_at_view_angle(PI, (255, 0, 0), false);</span>
 <span class="doccomment">//!         // set the LED rightmost to the camera green</span>
-<span class="doccomment">//!         controller_write.set_at_view_dir((1.0, 0.0), (0, 255, 0));</span>
+<span class="doccomment">//!         controller_write.set_at_view_dir((1.0, 0.0), (0, 255, 0), false);</span>
 <span class="doccomment">//!         // set the northmost LED blue (relative to the room&#39;s coordinate space)</span>
-<span class="doccomment">//!         room_controller.set_at_room_dir((0.0, 1.0), (0, 0, 255));</span>
+<span class="doccomment">//!         room_controller.set_at_room_dir((0.0, 1.0), (0, 0, 255), false);</span>
 <span class="doccomment">//!     }</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     fn stop(&amp;mut self) {}</span>
@@ -173,7 +186,7 @@
 <span class="doccomment">//! impl OutputDevice for CustomOutput {</span>
 <span class="doccomment">//!     fn start(&amp;self, output_handle: RoomControllerOutputHandle) {</span>
 <span class="doccomment">//!         let room_controller = output_handle.read().unwrap();</span>
-<span class="doccomment">//!</span>
+<span class="doccomment">//!         // print the color of each LED in the room</span>
 <span class="doccomment">//!         for led in room_controller.room_data.leds() {</span>
 <span class="doccomment">//!             println!(&quot;{:?}&quot;, led);</span>
 <span class="doccomment">//!         }</span>
@@ -192,20 +205,28 @@
 <span class="doccomment">//! OutputDevices should only access the RoomController in read-only fashion. The RoomControllerOutputHandle passed in through the start method is actually just a RwLock around a RoomController, which helps us keep our mutability straight.</span>
 <span class="doccomment">//! ### `MyInputDevice.start()`</span>
 <span class="doccomment">//! ```</span>
-<span class="doccomment">//! // --snip--</span>
 <span class="doccomment">//! let mut controller_write_access = input_handle.write().unwrap();</span>
-<span class="doccomment">//! println!(&quot;Our LED strips have a density of {} LEDs/meter.&quot;, controller_write_access.room_data.density); // also okay</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! controller_write_access.set(0, (0, 255, 0)); // okay</span>
+<span class="doccomment">//! //okay</span>
+<span class="doccomment">//! println!(</span>
+<span class="doccomment">//!     &quot;Our LED strips have a density of {} LEDs/meter.&quot;,</span>
+<span class="doccomment">//!     controller_write_access.room_data.density</span>
+<span class="doccomment">//! );</span>
+<span class="doccomment">//! // also okay</span>
+<span class="doccomment">//! controller_write_access.set(0, (0, 255, 0));</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ### `MyOutputDevice.start()`</span>
 <span class="doccomment">//! ```</span>
-<span class="doccomment">//! // --snip--</span>
 <span class="doccomment">//! let mut controller_read_access = input_handle.read().unwrap();</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! println!(&quot;Color of the 1st LED: {:?}&quot;, controller_read_access.room_data.leds()[1]); // okay</span>
-<span class="doccomment">//! controller_read_access.set(0, (0, 255, 0)); // illegal, will not compile</span>
+<span class="doccomment">//! // okay</span>
+<span class="doccomment">//! println!(</span>
+<span class="doccomment">//!     &quot;Color of the 1st LED: {:?}&quot;,</span>
+<span class="doccomment">//!     controller_read_access.room_data.leds()[1]</span>
+<span class="doccomment">//! );</span>
+<span class="doccomment">//! // illegal, will not compile</span>
+<span class="doccomment">//! controller_read_access.set(0, (0, 255, 0)); </span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! InputDevices are required to inplement a `.stop()` method, while OutputDevices do not. This is because you likely will want to swap out visual effects at run-time, but you are unlikely to need to swap out display methods on-the-go.</span>
@@ -246,6 +267,11 @@
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//! let map = |(dx, dy): (f32, f32)| { ... };</span>
 <span class="doccomment">//! room_controller.map_dir_to_color_clamped(&amp;map, 0.0, PI / 4.0);</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! You can also map LEDs by their displacement from the view position.</span>
+<span class="doccomment">//! ```rs</span>
+<span class="doccomment">//! let map = |(delta_x, delta_y): (f32, f32)| { ... };</span>
+<span class="doccomment">//! room_controller.map_displacement_to_color(&amp;map);</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! See the [docs](http://davidcosbyuofu.github.io/doc/slc/room_controller) for a full list of mapping methods.</span>
