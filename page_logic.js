@@ -1,4 +1,4 @@
-const server_loc = "http://70.34.15.240:88";
+const server_loc = "http://192.168.1.169";
 var room_running = false;
 var first_time_load = true;
 
