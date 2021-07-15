@@ -291,7 +291,7 @@ function update_canvas() {
 
                     ctx.fillStyle = color;
 
-                    ctx.fillRect(x - 2, y - 2, 4, 4);
+                    ctx.fillRect(x - 3, y - 3, 6, 6);
 
                     // ctx.beginPath();
                     // ctx.moveTo(x, y)
