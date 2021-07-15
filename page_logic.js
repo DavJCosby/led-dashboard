@@ -1,5 +1,5 @@
 const server_loc = "http://192.168.1.169";
-var room_running = false;
+var display_running = false;
 var first_time_load = true;
 
 function check_server_status() {
@@ -9,7 +9,7 @@ function check_server_status() {
     var rec = document.getElementById("status_recommendation");
     var refresh_button = document.getElementById("status_refresh");
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
@@ -27,7 +27,10 @@ function check_server_status() {
                     rec.className = "okay";
                     status_box.className = "panel okay_border";
                     refresh_button.hidden = true;
-                    update_canvas();
+                    if (display_running == false) {
+                        display_running = true
+                        setInterval(update_canvas, 20);
+                    }
                 }
                 else if (tcp_state == "offline") {
                     tcp_status.className = "error";
@@ -61,7 +64,7 @@ function refresh_room() {
     var self = document.getElementById("status_refresh");
     var tcp_status = document.getElementById("tcp_status");
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('post', server_loc + "/room/refresh", true);
     xhr.send();
 
@@ -76,7 +79,7 @@ function refresh_page() {
 }
 
 function update_fx_from_sever() {
-    var xhr1 = new XMLHttpRequest();
+    let xhr1 = new XMLHttpRequest();
     xhr1.onreadystatechange = function () {
         if (xhr1.readyState === 4) {
             if (xhr1.status == 200) {
@@ -90,7 +93,7 @@ function update_fx_from_sever() {
     xhr1.open('get', server_loc + "/fx/current", true);
     xhr1.send();
 
-    var xhr2 = new XMLHttpRequest();
+    let xhr2 = new XMLHttpRequest();
     xhr2.onreadystatechange = function () {
         if (xhr2.readyState === 4) {
             if (xhr2.status == 200) {
@@ -143,7 +146,7 @@ function on_start() {
     var fx_list = document.getElementById("fx_list");
     fx_list.disabled = true;
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('post', server_loc + "/room/refresh", true);
     xhr.send();
 }
@@ -155,14 +158,14 @@ function on_stop() {
     var fx_list = document.getElementById("fx_list");
     fx_list.disabled = false;
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('post', server_loc + "/room/stop", true);
     xhr.send();
 }
 
 function on_fx_change(new_fx) {
     load_sliders(new_fx);
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('post', server_loc + "/fx/" + new_fx, true);
     xhr.send();
 }
@@ -184,7 +187,7 @@ function load_sliders(fx_name) {
     var slider_container = document.getElementById("sliders");
     slider_container.innerHTML = "";
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('get', server_loc + "/fx/" + fx_name + "/sliders", true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
@@ -265,41 +268,49 @@ function load_sliders(fx_name) {
 }
 
 function update_canvas() {
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            let json = eval('(' + xhr.responseText + ")");
-            let canvas = document.getElementById("display_canvas");
+    let canvas_request = new XMLHttpRequest();
+    let canvas = document.getElementById("display_canvas");
+    var ctx = canvas.getContext('2d');
+
+    let width = 500;
+    let height = 500;
+
+    canvas_request.onreadystatechange = function () {
+        if (canvas_request.readyState === 4) {
+            let json = eval('(' + canvas_request.responseText + ")");
             if (canvas.getContext) {
 
-                let width = canvas.width;
-                let height = canvas.height;
 
-                var ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, width, width);
+                //ctx.clearRect(0, 0, width, width);
 
                 for (let i = 0; i < json.leds.length / 3; i++) {
                     let start = i * 3;
                     let color = "#" + json.leds[start];
-                    let x = json.leds[start + 1] * width;
-                    let y = height - json.leds[start + 2] * height;
+                    let x = json.leds[start + 1];
+                    let y = height - json.leds[start + 2];
 
-                    ctx.beginPath();
-                    ctx.arc(x, y, 2, 2 * Math.PI, false);
                     ctx.fillStyle = color;
-                    ctx.fill();
+
+                    ctx.fillRect(x - 2, y - 2, 4, 4);
+
+                    // ctx.beginPath();
+                    // ctx.moveTo(x, y)
+                    // ctx.lineTo(x, y + 4);
+                    // ctx.lineWidth = 4;
+                    // ctx.stroke();
+                    //ctx.arc(x, y, 2, 2 * Math.PI, false);
+
                 }
-                setTimeout(update_canvas, 33);
             }
         }
     }
-    xhr.open('get', server_loc + '/leds', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    xhr.send();
+    canvas_request.open('get', server_loc + '/leds', true);
+    canvas_request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    canvas_request.send();
 }
 
 function submit() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             alert(xhr.responseText);
@@ -311,7 +322,7 @@ function submit() {
 }
 
 function update_slider(fx_name, slider_name, value) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("post", server_loc + "/fx/" + fx_name + "/" + slider_name);
     xhr.send(value);
 }
