@@ -27,6 +27,7 @@ function check_server_status() {
                     rec.className = "okay";
                     status_box.className = "panel okay_border";
                     refresh_button.hidden = true;
+                    update_canvas();
                 }
                 else if (tcp_state == "offline") {
                     tcp_status.className = "error";
@@ -260,6 +261,40 @@ function load_sliders(fx_name) {
             }
         }
     }
+    xhr.send();
+}
+
+function update_canvas() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            let json = eval('(' + xhr.responseText + ")");
+            let canvas = document.getElementById("display_canvas");
+            if (canvas.getContext) {
+
+                let width = canvas.width;
+                let height = canvas.height;
+
+                var ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, width, width);
+
+                for (let i = 0; i < json.leds.length / 3; i++) {
+                    let start = i * 3;
+                    let color = "#" + json.leds[start];
+                    let x = json.leds[start + 1] * width;
+                    let y = height - json.leds[start + 2] * height;
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, 2, 2 * Math.PI, false);
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                }
+                setTimeout(update_canvas, 33);
+            }
+        }
+    }
+    xhr.open('get', server_loc + '/leds', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     xhr.send();
 }
 
