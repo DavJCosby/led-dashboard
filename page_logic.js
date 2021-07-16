@@ -284,8 +284,13 @@ function update_canvas() {
             let json = eval('(' + canvas_request.responseText + ")");
             if (canvas.getContext) {
 
-                //ctx.clearRect(0, 0, width, width);
-                for (let i = 0; i < json.leds.length / 3; i++) {
+                ctx.strokeStyle = "#928374";
+                ctx.fillStyle = "#928374";
+                ctx.beginPath();
+                ctx.arc(json.pos[0], json.pos[1], 5, 2 * Math.PI);
+                ctx.fill();
+
+                    for(let i = 0; i < json.leds.length / 3; i++) {
                     let start = i * 3;
                     let color = "#" + json.leds[start];
                     let x = json.leds[start + 1];
