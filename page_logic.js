@@ -20,6 +20,7 @@ function check_server_status() {
                 var tcp_state = xhr.responseText;
                 tcp_status.textContent = tcp_state;
                 update_fx_from_sever();
+                setInterval(update_canvas, 36);
 
                 if (tcp_state == "online") {
                     tcp_status.className = "okay";
@@ -29,7 +30,6 @@ function check_server_status() {
                     refresh_button.hidden = true;
                     if (display_running == false) {
                         display_running = true
-                        setInterval(update_canvas, 36);
                     }
                 }
                 else if (tcp_state == "offline") {
