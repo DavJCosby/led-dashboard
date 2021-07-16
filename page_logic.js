@@ -1,6 +1,7 @@
 const server_loc = "http://70.34.15.240:88";
 var display_running = false;
 var first_time_load = true;
+var got_update = false;
 
 function check_server_status() {
     var status_box = document.getElementById("status_panel");
@@ -20,6 +21,7 @@ function check_server_status() {
                 var tcp_state = xhr.responseText;
                 tcp_status.textContent = tcp_state;
                 update_fx_from_sever();
+                got_update = true;
                 setInterval(update_canvas, 36);
 
                 if (tcp_state == "online") {
@@ -268,6 +270,8 @@ function load_sliders(fx_name) {
 }
 
 function update_canvas() {
+    if (got_update == false) { return; }
+    got_update = false;
     let canvas_request = new XMLHttpRequest();
     let canvas = document.getElementById("display_canvas");
     var ctx = canvas.getContext('2d');
@@ -280,9 +284,7 @@ function update_canvas() {
             let json = eval('(' + canvas_request.responseText + ")");
             if (canvas.getContext) {
 
-
                 //ctx.clearRect(0, 0, width, width);
-
                 for (let i = 0; i < json.leds.length / 3; i++) {
                     let start = i * 3;
                     let color = "#" + json.leds[start];
@@ -290,17 +292,9 @@ function update_canvas() {
                     let y = height - json.leds[start + 2];
 
                     ctx.fillStyle = color;
-
                     ctx.fillRect(x - 3, y - 3, 6, 6);
-
-                    // ctx.beginPath();
-                    // ctx.moveTo(x, y)
-                    // ctx.lineTo(x, y + 4);
-                    // ctx.lineWidth = 4;
-                    // ctx.stroke();
-                    //ctx.arc(x, y, 2, 2 * Math.PI, false);
-
                 }
+                got_update = true;
             }
         }
     }
