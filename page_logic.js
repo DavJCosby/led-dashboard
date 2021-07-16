@@ -22,7 +22,7 @@ function check_server_status() {
                 tcp_status.textContent = tcp_state;
                 update_fx_from_sever();
                 got_update = true;
-                setInterval(update_canvas, 36);
+                setInterval(update_canvas, 20);
 
                 if (tcp_state == "online") {
                     tcp_status.className = "okay";
