@@ -293,8 +293,8 @@ function update_canvas() {
                 ctx.arc(view_x, view_y, 5, 0, 2 * Math.PI);
                 ctx.fill();
 
-                let off_x = Math.cos(json.rot) * 5;
-                let off_y = Math.sin(json.rot) * 5;
+                let off_x = Math.sin(json.rot) * -10;
+                let off_y = Math.cos(json.rot) * -10;
 
                 ctx.beginPath();
                 ctx.moveTo(view_x, view_y);
