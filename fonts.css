@@ -1,33 +1,3 @@
-/* MPlus 1 */
-
-@font-face {
-    font-family: Mplus1;
-    src: url("mplus/Mplus1-Regular.ttf");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: Mplus1;
-    src: url("mplus/Mplus1-Bold.ttf");
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: Mplus1;
-    src: url("mplus/Mplus1-ExtraBold.ttf");
-    font-weight: bolder;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: Mplus1;
-    src: url("mplus/Mplus1-Light.ttf");
-    font-weight: lighter;
-    font-style: normal;
-}
-
 /* MPlus 2 */
 
 @font-face {
@@ -54,36 +24,6 @@
 @font-face {
     font-family: Mplus2;
     src: url("mplus/Mplus2-Light.ttf");
-    font-weight: lighter;
-    font-style: normal;
-}
-
-/* MPlus Code */
-
-@font-face {
-    font-family: MplusCode;
-    src: url("mplus/MplusCodeLatin50-Regular.ttf");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: MplusCode;
-    src: url("mplus/MplusCodeLatin60-Bold.ttf");
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: MplusCode;
-    src: url("mplus/MplusCodeLatin60-Bold.ttf");
-    font-weight: bolder;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: MplusCode;
-    src: url("mplus/MplusCodeLatin60-Light.ttf");
     font-weight: lighter;
     font-style: normal;
 }
@@ -118,7 +58,7 @@ button:disabled:hover {
 
 @media (min-resolution: 200dpi) {
     body {
-        font-family: MplusCode;
+        font-family: Mplus2;
         font-weight: normal;
         font-style: normal;
         font-size: xx-large;
