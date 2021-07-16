@@ -287,7 +287,7 @@ function update_canvas() {
                 ctx.strokeStyle = "#928374";
                 ctx.fillStyle = "#928374";
                 ctx.beginPath();
-                ctx.arc(json.pos[0], json.pos[1], 5, 2 * Math.PI);
+                ctx.arc(json.pos[0], json.pos[1], 5, 0, 2 * Math.PI);
                 ctx.fill();
 
                     for(let i = 0; i < json.leds.length / 3; i++) {
