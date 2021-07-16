@@ -8,6 +8,7 @@
         --orange: #d79921;
         --red: #cc241d;
         --blue: #458588;
+        --purple: #b16286
     }
 }
 
@@ -21,6 +22,8 @@
         --orange: #d79921;
         --red: #cc241d;
         --blue: #458588;
+        --purple: #b16286
+
     }
 }
 
@@ -39,6 +42,14 @@ div::-webkit-scrollbar {
 body {
     background-color: var(--bg);
     color: var(--text);
+}
+
+a:link {
+    color: var(--blue)
+}
+
+a:visited {
+    color: var(--purple)
 }
 
 button {

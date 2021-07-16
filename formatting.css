@@ -47,6 +47,7 @@ button {
 
 #status_header, #effects_header, #credits_header {
     margin: 0.33em;
+    text-align: center;
 }
 
 #status_recommendation {
@@ -163,6 +164,12 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     word-wrap: normal;
     flex-basis: 36%;
     order: 99;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+#about_text {
+    text-align: justify;
 }
 
 .range_container {
@@ -202,3 +209,4 @@ input[type="range"]::-moz-range-thumb {
     width: 100%;
     height: 100%
 }
+

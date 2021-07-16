@@ -44,17 +44,37 @@
                 </button>
             </div>
             <div id="sliders"> </div>
-            </div>
+        </div>
 
-            <div id="credits_panel" class="panel okay_border">
-                <h2>About</h2>
-            </div>
+        <div id="credits_panel" class="panel okay_border">
+            <h2 id="credits_header">About</h2>
+            <hr>
+            <span id="about_text" class="about_text">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Spatial Lighting Controller (SLC, pronouced silk) is
+                a set of tools I wrote to
+                control the individually addressable LEDs in my room. Unlike most lighting controllers, SLC is
+                aware of the shape of the room and the position of each LED, relative to a pre-defined view point.
 
-            <div id="display_panel" class="panel plain_border">
-                <canvas id="display_canvas" width ="600" height="600"></canvas>
-            </div>
+                This allows us to do some pretty interesting things. We can color each LED based on its angle from the
+                user,
+                create <a
+                    href="https://github.com/DavidCosbyUofU/slc_examples/tree/main/input_devices/audio_visualizer">
+                    audio visualizers</a> that
+                show us which direction our music is coming from, and much much more.
+            </span>
+
+            <p class="about_text">
+                To learn more, check out the <a href="https://github.com/DavidCosbyUofU/slc">slc repository.</a>
+            </p>
 
         </div>
+
+        <div id="display_panel" class="panel plain_border">
+            <canvas id="display_canvas" width="600" height="600"></canvas>
+        </div>
+
+    </div>
 </body>
 
 </html>
