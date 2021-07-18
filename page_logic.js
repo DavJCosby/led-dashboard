@@ -1,4 +1,4 @@
-const server_loc = "http://192.168.1.211";
+const server_loc = "http://192.168.1.211:8000";
 var display_running = false;
 var first_time_load = true;
 var got_update = false;
